@@ -1,0 +1,42 @@
+OBTAINING DATA SOURCE:
+
+var queryAllCustomers=from cust in customers select cust;
+
+FILTERING:
+
+var queryLondonCustomers=from cust in customers 
+where cust.city=="London" select cust;
+
+where cust.City=="London" && cust.Name=="Devon";
+
+where cust.City=="London" || cust.City=="Paris";
+
+ORDERING:
+
+var queryLondonCustomers3 = from cust in customers 
+where cust.City == "London" orderby cust.Name ascending
+select cust;
+
+GROUPING:
+
+var queryCustomersByCity =from cust in customers
+group cust by cust.City;
+foreach (var customerGroup in queryCustomersByCity)
+  {
+      Console.WriteLine(customerGroup.Key);
+      foreach (Customer customer in customerGroup)
+      {
+          Console.WriteLine("    {0}", customer.Name);
+      }
+  }
+  
+var custQuery = from cust in customers
+group cust by cust.City into custGroup
+where custGroup.Count() > 2 orderby custGroup.Key
+select custGroup;
+
+JOINING:
+
+var innerJoinQuery =from cust in customers join dist in 
+distributors on cust.City equals dist.City 
+select new { CustomerName = cust.Name, DistributorName = dist.Name };
